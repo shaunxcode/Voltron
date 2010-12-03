@@ -1,6 +1,8 @@
 <?php
 
-class Voltron_Model_Type_HexColor extends Voltron_Model_Type_Abstract
+namespace Voltron\Model\Type;
+
+class HexColor extends Abstract
 {
 	
 }

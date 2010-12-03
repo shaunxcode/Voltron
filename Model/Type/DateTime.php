@@ -1,6 +1,8 @@
 <?php
 
-class Voltron_Model_Type_DateTime extends Voltron_Model_Type_Abstract 
+namespace Voltron\Model\Type;
+
+class DateTime extends Base 
 {
 	private $format; 
 	

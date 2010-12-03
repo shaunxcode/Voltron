@@ -29,4 +29,9 @@ class Registry
 	{
 		self::$setters[$key] = $func;
 	}
+
+	public static function __callStatic($what, $with) 
+	{
+		return empty($with) ? self::get($what) : self::set($what, current($with));
+	} 
 }

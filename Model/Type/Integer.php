@@ -1,6 +1,8 @@
 <?php
 
-class Voltron_Model_Type_Integer extends Voltron_Model_Type_Abstract
+namespace Voltron\Model\Type;
+
+class Integer extends Base
 {
 	public function __construct($value = 0)
 	{
@@ -9,12 +11,12 @@ class Voltron_Model_Type_Integer extends Voltron_Model_Type_Abstract
 	
 	public function create($value) 
 	{
-		return new Voltron_Model_Type_Integer($value);
+		return new Integer($value);
 	}
 	
 	public function parseValue($value)
 	{
-		return $value instanceof Voltron_Model_Type_Abstract ? $value->value() : (int)$value;
+		return $value instanceof Base ? $value->value() : (int)$value;
 	}
 
 	public function times($value)

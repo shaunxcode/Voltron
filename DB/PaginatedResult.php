@@ -1,6 +1,8 @@
 <?php
 
-class Voltron_DB_PaginatedResult 
+namespace Voltron\DB;
+
+class PaginatedResult 
 {
 	protected $total;
 	protected $results;

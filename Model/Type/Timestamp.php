@@ -1,6 +1,8 @@
 <?php
 
-class Voltron_Model_Type_Timestamp extends Voltron_Model_Type_Abstract
+namespace Voltron\Model\Type;
+
+class Timestamp extends Base
 {
 	public function asDateTime()
 	{

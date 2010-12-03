@@ -1,6 +1,8 @@
 <?php
 
-class Voltron_Model_Type_Decimal extends Voltron_Model_Type_Integer
+namespace Voltron\Model\Type;
+
+class Decimal extends Integer
 {
 	public function __construct($value)
 	{
@@ -9,11 +11,11 @@ class Voltron_Model_Type_Decimal extends Voltron_Model_Type_Integer
 	
 	public function create($value) 
 	{
-		return new Voltron_Model_Type_Decimal($value);
+		return new Decimal($value);
 	}
 	
 	public function parseValue($value)
 	{
-		return $value instanceof Voltron_Model_Type_Abstract ? $value->value() : (float)$value;
+		return $value instanceof Abstract ? $value->value() : (float)$value;
 	}
 }

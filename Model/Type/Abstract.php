@@ -1,6 +1,8 @@
 <?php
 
-abstract class Voltron_Model_Type_Abstract
+namespace Voltron\Model\Type;
+
+abstract class Base
 {
 	protected $value;
 

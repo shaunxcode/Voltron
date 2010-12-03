@@ -1,7 +1,9 @@
 <?php
 	//should implement something like db adapter
-	class Voltron_DB_Mysql 
-	{
+namespace Voltron\Db;
+
+class Mysql 
+{
 		private static $connection = false;
 		
 		public function __construct($host, $user, $password, $database) 
@@ -51,7 +53,7 @@
 		
 		public function query(&$model, $query, $params = array()) 
 		{
-			return new Voltron_DB_RecordSet($model, $this->prepareQuery($query, $params));
+			return new RecordSet($model, $this->prepareQuery($query, $params));
 		}
 		
 		public function totalRows()

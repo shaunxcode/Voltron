@@ -1,6 +1,8 @@
 <?php
 
-class Voltron_DB_RecordSet implements Iterator, Countable
+namespace Voltron\DB;
+
+class RecordSet implements Iterator, Countable
 {
 	private $position = 0;
 	private $count = 0;

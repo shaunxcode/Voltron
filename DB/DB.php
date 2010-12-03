@@ -1,13 +1,15 @@
 <?php
 
-class Voltron_DB 
+namespace Voltron;
+
+class DB 
 {
 	public static function createHandle()
 	{
 		//load the app db config
-		$className = APPNAME . '_Config_Database';
+		$className = APPNAME . '\Config\Database';
 		$config = new $className;
-		$dbhClassName = 'Voltron_DB_' . $config->type;
-		return Voltron_Registry::set('dbh', new $dbhClassName($config->host, $config->user, $config->pass, $config->database));
+		$dbhClassName = '\Voltron\DB\\' . $config->type;
+		return Registry::dbh(new $dbhClassName($config->host, $config->user, $config->pass, $config->database));
 	}
 }

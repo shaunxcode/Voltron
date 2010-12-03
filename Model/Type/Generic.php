@@ -1,6 +1,8 @@
 <?php
 
-class Voltron_Model_Type_Generic 
+namespace Voltron\Model\Type;
+
+class Generic 
 {
 	public function __construct($val)
 	{

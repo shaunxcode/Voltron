@@ -1,6 +1,8 @@
 <?php
 
-class Voltron_Model_Type_Primary extends Voltron_Model_Type_Integer
+namespace Voltron\Model\Type;
+
+class Primary extends Integer
 {
 	
 }

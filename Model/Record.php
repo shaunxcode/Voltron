@@ -1,6 +1,8 @@
 <?php
 
-class Voltron_Model_Record
+namespace Voltron\Model;
+
+class Record
 {
 	public $data;
 	private $_modelName;
@@ -38,34 +40,34 @@ class Voltron_Model_Record
 	
 	public function getFields()
 	{
-		return Voltron_Model::getFieldList($this->_modelName);
+		return \Voltron\Model::getFieldList($this->_modelName);
 	}
 	
 	public function getField($fieldName)
 	{
-		return Voltron_Model::getFieldList($this->_modelName, $fieldName);
+		return \Voltron\Model::getFieldList($this->_modelName, $fieldName);
 	}
 	
 	public function get($field)
 	{
 		if($fieldType = $this->getField($field)) {
 			if($fieldType->class == Type::JoinMany) {
-				return newObject(APPNAME . '_Model_' . $fieldType->spec->toModel)->getWhereFields($fieldType->spec->toField, $this->{$fieldType->spec->fromField});
+				return newObject(APPNAME . '\Model\\' . $fieldType->spec->toModel)->getWhereFields($fieldType->spec->toField, $this->{$fieldType->spec->fromField});
 			}
 			else if($fieldType->class == Type::Join) {
-				return newObject(APPNAME . '_Model_' . $fieldType->spec->toModel)->get($this->{$fieldType->spec->fromField});
+				return newObject(APPNAME . '\Model\\' . $fieldType->spec->toModel)->get($this->{$fieldType->spec->fromField});
 			} else if($fieldType->class == Type::Calculated) {
 				$method = reset($fieldType->spec);
 				return $this->$method();
 			} else {
 				if(isset($this->data->$field)) {
-					return newObject('Voltron_Model_Type_' . $fieldType->class, $this->data->$field);
+					return newObject('Model\Type\\' . $fieldType->class, $this->data->$field);
 				}
 			}
 		} else {
 			/* this is a hack to allow legacy $this->Model access where it expects model to be uppercased and field $this->model to not be... */
 			if(strtoupper($field[0]) == $field[0]) {
-				$className = APPNAME . '_Model_' . $field;
+				$className = APPNAME . '\Model\\' . $field;
 				if(class_exists($className)) {
 					$this->$className = new $className;
 					return $this->$className;
@@ -74,7 +76,7 @@ class Voltron_Model_Record
 			
 			//allow generic voltron model record 
 			if(isset($this->data->$field)) {
-				return !is_scalar($this->data->$field) ? $this->data->$field : newObject('Voltron_Model_Type_String', $this->data->$field);
+				return !is_scalar($this->data->$field) ? $this->data->$field : newObject('Model\Type\String', $this->data->$field);
 			}
 			
 			if(is_callable(array($this, $field))) {
@@ -110,7 +112,7 @@ class Voltron_Model_Record
 			if($type->class == Type::Calculated) {
 				$method = reset($type->spec);
 				$this->data->$field = $this->$method();
-				if(Voltron_Util::methodExists($this->data->$field, 'asJson')) {
+				if(\Voltron\Util::methodExists($this->data->$field, 'asJson')) {
 					$this->data->$field = $this->data->$field->asJson();
 				}
 			}

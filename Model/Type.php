@@ -1,5 +1,7 @@
 <?php
 
+namespace Voltron;
+
 class Type
 {
     const Primary = 'Primary';
@@ -32,7 +34,7 @@ class Type
 	const HexColor = 'HexColor';
 
     public static $mysqlType = array(
-		'Primary' => 'bigint(20)',
+	'Primary' => 'bigint(20)',
     	'Integer' => 'int',
     	'BigInt' => 'bigint(20)',
     	'Enum' => 'ENUM',
@@ -42,23 +44,23 @@ class Type
     	'Minute ' => 'int',
     	'Second' => 'int',
     	'Year' => 'int',
-		'Time' => 'int',
-		'TimeStamp' => 'timestamp',
+	'Time' => 'int',
+	'TimeStamp' => 'timestamp',
     	'Timestamp' => 'timestamp',
     	'String' => 'varchar(255)',
     	'Text' => 'text',
     	'Number' => 'float',
     	'Float' => 'float',
-		'Decimal' => 'Decimal(10,2)',
+	'Decimal' => 'Decimal(10,2)',
     	'Boolean' => 'tinyint(1)',
-		'Email' => 'varchar(255)',
-	    'Password' => 'varchar(255)',
-		'MD5Password' => 'varchar(255)',
-		'HexColor' => 'varchar(255)',
+	'Email' => 'varchar(255)',
+	'Password' => 'varchar(255)',
+	'MD5Password' => 'varchar(255)',
+	'HexColor' => 'varchar(255)',
     	'Join' => false,
     	'JoinMany' => false,
     	'JoinPivot' => false,
     	'JoinReverse' => false,
-		'Calculated' => false);
+	'Calculated' => false);
 }
 

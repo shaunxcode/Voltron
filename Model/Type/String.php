@@ -1,10 +1,12 @@
 <?php
 
-class Voltron_Model_Type_String extends Voltron_Model_Type_Abstract
+namespace Voltron\Model\Type;
+
+class String extends Base
 {
 	public static function create($value) 
 	{
-		return new Voltron_Model_Type_String($value);
+		return new String($value);
 	}
 	
 	public function upper()
@@ -19,7 +21,7 @@ class Voltron_Model_Type_String extends Voltron_Model_Type_Abstract
 	
 	public function split($by = ' ')
 	{
-		return new Voltron_Model_Type_Array(explode($by, $this->value), 'Voltron_Model_Type_String');
+		return new Dict(explode($by, $this->value), '\Voltron\Model\Type\String');
 	}
 	
 	public function length()
@@ -29,7 +31,7 @@ class Voltron_Model_Type_String extends Voltron_Model_Type_Abstract
 
 	public function asArray()
 	{
-		return new Voltron_Model_Type_Array(str_split($this->value), 'Voltron_Model_Type_String');
+		return new Dict(str_split($this->value), '\Voltron\Model\Type\String');
 	}
 		
 	public function replace($x, $y = '')

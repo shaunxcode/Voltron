@@ -1,6 +1,8 @@
 <?php
 
-class Voltron_Model_Type_Array extends Voltron_Model_Type_Abstract implements ArrayAccess, Iterator, Countable
+namespace Voltron\Model\Type;
+
+class Dict extends Base implements ArrayAccess, Iterator, Countable
 {
 	protected $className = false;
 	
@@ -18,11 +20,11 @@ class Voltron_Model_Type_Array extends Voltron_Model_Type_Abstract implements Ar
 	
 	private function cast($element)
 	{
-		if($this->className == 'Voltron_Model_Type_Primitive') {
+		if($this->className == '\Voltron\Model\Type\Primitive') {
 			return $element;
 		}
 		
-		if($element instanceof Voltron_Model_Type_Array) {
+		if($element instanceof Dict) {
 			return $element;
 		}
 		
@@ -46,7 +48,7 @@ class Voltron_Model_Type_Array extends Voltron_Model_Type_Abstract implements Ar
 	public static function getFunction($funcString)
 	{
 		return !is_callable($funcString) ? 
-			($funcString instanceof Voltron_FluentLambda ? $funcString->getLambda() : create_function('$key, $val', 'return ' . $funcString . ';'))
+			($funcString instanceof \Voltron\FluentLambda ? $funcString->getLambda() : create_function('$key, $val', 'return ' . $funcString . ';'))
 			: 
 			$funcString;
 	}
@@ -56,7 +58,7 @@ class Voltron_Model_Type_Array extends Voltron_Model_Type_Abstract implements Ar
 		$func = self::getFunction($funcString);
 		
 		foreach($this->value as $key => $val) {			
-			$this->value[$key] = ($val instanceof Voltron_Model_Type_Array && $this->className != 'Voltron_Model_Type_Array') ? 
+			$this->value[$key] = ($val instanceof Dict && $this->className != '\Voltron\Model\Type\Dict') ? 
 				$val->map($funcString) 
 				: 
 				$func(newType('String', $key), $this->cast($val));
@@ -78,11 +80,11 @@ class Voltron_Model_Type_Array extends Voltron_Model_Type_Abstract implements Ar
 	public function filter($funcString)
 	{
 		$func = self::getFunction($funcString);
-		$new = new Voltron_Model_Type_Array(array(), $this->className);
+		$new = new Dict(array(), $this->className);
 		
 		foreach($this->value as $key => $val) {
 			if($func(newType('String', $key), $this->cast($val))) {
-				$new[$key] = ($val instanceof Voltron_Model_Type_Array && $this->className != 'Voltron_Model_Type_Array') ? 
+				$new[$key] = ($val instanceof Dict && $this->className != '\Voltron\Model\Type\Dict') ? 
 					$val->filter($funcString) 
 					: 
 					$val;
@@ -94,17 +96,17 @@ class Voltron_Model_Type_Array extends Voltron_Model_Type_Abstract implements Ar
 	
 	public static function getArray($array)
 	{
-		return $array instanceof Voltron_Model_Type_Array ? $array->value() : $array;
+		return $array instanceof Dict ? $array->value() : $array;
 	}
 	
 	public function merge($array)
 	{
-		return new Voltron_Model_Type_Array(array_merge($this->value, self::getArray($array)), $this->className);
+		return new Dict(array_merge($this->value, self::getArray($array)), $this->className);
 	}
 	
 	public function flatten()
 	{
-		$new = new Voltron_Model_Type_Array(array(), $this->className);
+		$new = new Dict(array(), $this->className);
 		foreach($this->value as $node) {
 			if(is_scalar($node)) {
 				$new->push($node);
@@ -134,7 +136,7 @@ class Voltron_Model_Type_Array extends Voltron_Model_Type_Abstract implements Ar
 	
 	public function diff($array)
 	{
-		return newObject('Voltron_Model_Type_Array', array_diff($this->value, self::getArray($array)))->setClass($this->className);
+		return newObject('\Voltron\Model\Type\Dict', array_diff($this->value, self::getArray($array)))->setClass($this->className);
 	}
 	
     public function isEmpty()

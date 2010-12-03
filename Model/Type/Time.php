@@ -1,6 +1,8 @@
 <?php
 
-class Voltron_Model_Type_Time extends Voltron_Model_Type_Abstract
+namespace Voltron\Model\Type;
+
+class Time extends Base
 {
 	private $hour;
 	

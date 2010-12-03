@@ -1,6 +1,8 @@
 <?php
 
-class Voltron_Model_Type_Enum extends Voltron_Model_Type_Abstract
+namespace Voltron\Model\Type;
+
+class Enum extends Base
 {
 
 }

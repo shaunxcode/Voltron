@@ -1,6 +1,8 @@
 <?php
 
-class Voltron_Model_GenericRecord
+namespace Voltron\Model;
+
+class GenericRecord
 {
 	public function __construct($data)
 	{

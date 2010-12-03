@@ -1,6 +1,8 @@
 <?php
 
-class Voltron_Model
+namespace Voltron;
+
+class Model
 {
 	protected $table;
 	protected $primaryKey = 'id';
@@ -24,7 +26,7 @@ class Voltron_Model
 		
 		if(!isset(self::$fieldCache[$modelName])) {
 			self::$fieldCache[$modelName] = array();
-			foreach(Voltron_Util::getExtendedStaticArray($modelName, 'fields') as $fname => $type) {
+			foreach(Util::getExtendedStaticArray($modelName, 'fields') as $fname => $type) {
 				if(!is_array($type)) {
 					$type = array($type);
 				}
@@ -44,12 +46,12 @@ class Voltron_Model
 	
 	public function getFields()
 	{
-		return Voltron_Model::getFieldList(get_class($this));
+		return Model::getFieldList(get_class($this));
 	}
 	
 	public function __construct()
 	{
-		$this->Session = Voltron_Registry::get('Session');
+		$this->Session = Registry::get('Session');
 	}
 			
 	public function __get($field)
@@ -85,14 +87,14 @@ class Voltron_Model
 			
 			array_unshift($pieces, 'Model');
 			$recordClass = $prefix . '_' . implode('_', $pieces);
-			$className = class_exists($recordClass) ? $recordClass : ($this->recordName ? $this->recordName : 'Voltron_Model_Record');
+			$className = class_exists($recordClass) ? $recordClass : ($this->recordName ? $this->recordName : 'Model\Record');
 		}
 		
 		return $className;
 	}
 
 	/* Return array */
-	private function _buildFields(Voltron_Model_Record $record)
+	private function _buildFields(Model\Record $record)
 	{
 		$fields = array();
 		foreach($this->getFields() as $field => $type) {
@@ -109,12 +111,12 @@ class Voltron_Model
 		return $fields;
 	}
 	
-	protected function beforeCreate(Voltron_Model_Record $record)
+	protected function beforeCreate(Model\Record $record)
 	{
 		return $record;
 	}
 	
-	protected function beforeCreateOrUpdate(Voltron_Model_Record $record)
+	protected function beforeCreateOrUpdate(Model\Record $record)
 	{
 		return $record;
 	}
@@ -123,11 +125,11 @@ class Voltron_Model
 	public function create()
 	{
 		$args = func_get_args();
-		$record = $this->beforeCreateOrUpdate($this->beforeCreate(count($args) == 1 ? current($args) : $this->dispatchRecord(Voltron_Util::arrayToHash($args))));
+		$record = $this->beforeCreateOrUpdate($this->beforeCreate(count($args) == 1 ? current($args) : $this->dispatchRecord(Util::arrayToHash($args))));
 		
 		$fields = $this->_buildFields($record);
 
-		$return = $this->get(Voltron_Registry::get('dbh')->insert(
+		$return = $this->get(Registry::get('dbh')->insert(
 			"insert 
 			   into `{$this->table}`(" . implode(',', array_keys($fields)) . ") 
 			 values (" . implode(',', array_fill(0, count($fields), '?')). ")", 
@@ -137,7 +139,7 @@ class Voltron_Model
 	}
 	
 	/* Return Int */
-	public function update(Voltron_Model_Record $record, $clause = false) 
+	public function update(Model\Record $record, $clause = false) 
 	{
 		//TODO implement actually using clause for ocmplex updates
 		
@@ -150,7 +152,7 @@ class Voltron_Model
 		$id = $record->id;
 		$fields[`id`] = $id;
 		
-		return $this->get(Voltron_Registry::get('dbh')->update(
+		return $this->get(Registry::get('dbh')->update(
 			"update `{$this->table}`
 			    set " . implode(', ', $sets) . " 
 			  where `id` = ?", $fields) ? $id : false);
@@ -175,7 +177,7 @@ class Voltron_Model
 			throw new Exception("We MUST have a where clause for a delete statement");
 		}
 
-		Voltron_Registry::get('dbh')->execute("delete from {$this->table} {$custom} {$where}", $params);
+		Registry::get('dbh')->execute("delete from {$this->table} {$custom} {$where}", $params);
 		return true;
 	}
 
@@ -192,7 +194,7 @@ class Voltron_Model
 	}
 			
 	/* Return Boolean */
-	public function updateAll(Voltron_Model_Type_Array $records)
+	public function updateAll(Model\Type\Dict $records)
 	{
 		foreach($records as $record) {
 			$this->update($record);
@@ -202,7 +204,7 @@ class Voltron_Model
 	}
 	
 	/* Return Boolean */
-	public function saveAll(Voltron_Model_Type_Array $records)
+	public function saveAll(Model\Type\Dict $records)
 	{
 		foreach($records as $record) {
 			$record->setModelName(get_class($this));
@@ -344,13 +346,13 @@ class Voltron_Model
 			. (isset($options['limit']) ? ' limit ' . ((int)$options['limit']) : '')
 			. (isset($options['page']) ? ' limit ' . ((int)$options['page'] * (int)$options['perPage']) . ', ' . ((int)$options['perPage']) : '');
 
-		$result = Voltron_Registry::get('dbh')->query($this, $query, $params);
+		$result = Registry::get('dbh')->query($this, $query, $params);
 						
 		if(isset($options['page'])) {
 			$totalLimited = $result->count();
-			$result = newObject('Voltron_DB_PaginatedResult')
+			$result = newObject('DB\PaginatedResult')
 				->setPage($options['page'])
-				->setTotal(Voltron_Registry::get('dbh')->totalRows())
+				->setTotal(Registry::get('dbh')->totalRows())
 				->setResults($result);
 		}
 			

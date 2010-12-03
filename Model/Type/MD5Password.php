@@ -1,6 +1,8 @@
 <?php
 
-class Voltron_Model_Type_MD5Password extends Voltron_Model_Type_String
+namespace Voltron\Model\Type;
+
+class MD5Password extends String
 {
 	
 }
