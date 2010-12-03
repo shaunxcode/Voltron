@@ -1,6 +1,8 @@
 <?php
 
-class Voltron_Meta_Class_Node
+namespace Voltron\Meta\Class;
+
+class Node
 {
 	protected $name;
 	protected $private;

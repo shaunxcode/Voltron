@@ -1,4 +1,7 @@
 <?php
+
+namespace Voltron;
+
 require_once APPROOT . '/library/Voltron/Model/Type.php';
 session_start();
 define('VOLTRON', 'Voltron');

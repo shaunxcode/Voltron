@@ -1,6 +1,8 @@
 <?php
 
-class Voltron_AppController extends Voltron_Controller 
+namespace Voltron\Controller;
+
+class Application extends \Voltron\Controller 
 {
 	public function __construct($name, $content = false, $routeName = false)
 	{

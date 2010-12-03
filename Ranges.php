@@ -1,6 +1,8 @@
 <?php
 
-class Voltron_Ranges
+namespace Voltron; 
+
+class Ranges
 {
 	public static function months($start = false, $end = false)
 	{

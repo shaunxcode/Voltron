@@ -1,6 +1,8 @@
 <?php
 
-class Voltron_ModelController 
+namepsace Voltron\Controller;
+
+class Model extends \Voltron\Controller
 {
 	public function dispatch()
 	{

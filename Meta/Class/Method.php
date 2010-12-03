@@ -1,6 +1,8 @@
 <?php
 
-class Voltron_Meta_Class_Function extends Voltron_Meta_Class_Node 
+namespace Voltron\Meta\Class;
+
+class Method extends Node 
 {
 	protected $args;
 	protected $body; 
@@ -14,7 +16,7 @@ class Voltron_Meta_Class_Function extends Voltron_Meta_Class_Node
 
 	public static function create($name, $args, $body)
 	{
-		$obj = new Voltron_Meta_Class_Function($name, $args, $body);
+		$obj = new Method($name, $args, $body);
 		return $obj;
 	}
 

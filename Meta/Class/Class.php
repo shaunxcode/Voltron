@@ -1,6 +1,8 @@
 <?php
 
-class Voltron_Meta_Class 
+namespace Voltron\Meta;
+
+class Class 
 {
 	private $className;
 	private $properties;
@@ -9,8 +11,8 @@ class Voltron_Meta_Class
 	public function __construct($className = false)
 	{
 		$this->className = $className;
-		$this->properties = new Voltron_Model_Type_Array(array(), 'Voltron_Meta_Class_Property');
-		$this->functions = new Voltron_Model_Type_Array(array(), 'Voltron_Meta_Class_Function');
+		$this->properties = new \Voltron\Model\Type\Dict(array(), '\Voltron\Meta\Class\Property');
+		$this->functions = new \Voltron\Model\Type\Dict(array(), '\Voltron\Meta\Class\Function');
 	}
 
 	public static function create($className)
@@ -21,13 +23,13 @@ class Voltron_Meta_Class
 
 	public function publicStaticProperty($name, $value)
 	{
-		$this->properties[] = Voltron_Meta_Class_Property::create($name, $value)->public->static; 
+		$this->properties[] = Class\Property::create($name, $value)->public->static; 
 		return $this;
 	}
 
 	public function publicStaticFunction($name, $args, $body)
 	{
-		$this->functions[] = Voltron_Meta_Class_Function::create($name, $args, $body)->public->static;
+		$this->functions[] = Class\Method::create($name, $args, $body)->public->static;
 		return $this;
 	}
 

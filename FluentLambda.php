@@ -1,6 +1,8 @@
 <?php
 
-class Voltron_FluentLambda
+namespace Voltron;
+
+class FluentLambda
 {
 	private $stack = array(); 
 	private $operatingOn; 
@@ -21,7 +23,7 @@ class Voltron_FluentLambda
 	{
 		$list = newArray(VString);
 		foreach($args as $arg) {
-			if($arg instanceof Voltron_FluentLambda) {
+			if($arg instanceof FluentLambda) {
 				$arg = $arg->getLambda();	
 			}
 			

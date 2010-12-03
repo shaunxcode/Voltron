@@ -1,6 +1,8 @@
 <?php
 
-class Voltron_Directory 
+namespace Voltron;
+ 
+class Directory 
 {
 	private $handle;
 	private $dirName;
@@ -16,7 +18,7 @@ class Voltron_Directory
 		$files = newArray('String');
 		while(($file = readdir($this->handle)) !== false) if($file !== '.' && $file !== '..' && $file[0] !== '.') {			
 			$dfname = fileName($this->dirName, $file);
-			$files[$file] = filetype($dfname) == 'dir' ? newObject('Voltron_Directory', $dfname)->tree() : $file;
+			$files[$file] = filetype($dfname) == 'dir' ? newObject('Directory', $dfname)->tree() : $file;
 		}
 
 		return $files;		
@@ -25,7 +27,7 @@ class Voltron_Directory
 	public static function getTree()
 	{
 		$args = func_get_args();
-		return newObject('Voltron_Directory', implode('/', $args))->tree();
+		return newObject('Directory', implode('/', $args))->tree();
 	}
 
 	public static function make($dirName)

@@ -1,6 +1,8 @@
 <?php
 
-class Voltron_Registry
+namespace Voltron;
+
+class Registry
 {
 	private static $objects = array();
 	private static $setters = array();

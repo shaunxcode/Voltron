@@ -1,6 +1,8 @@
 <?php
 
-class Voltron_Session
+namespace Voltron; 
+
+class Session
 {
 	private $session;
 	

@@ -1,11 +1,13 @@
 <?php
 
-class Voltron_Controller 
+namespace Voltron;
+
+class Controller 
 {
 	public $layout = false;
 	protected $name;
 	protected $view;
-    protected $Request;
+	protected $Request;
 	protected $Session;
 	protected $route;
 	protected $access = OPEN;

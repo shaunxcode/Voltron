@@ -1,6 +1,8 @@
 <?php
 
-class Voltron_View
+namespace Voltron; 
+
+class View
 {
 	protected $env;
 	protected $Session;
@@ -8,13 +10,13 @@ class Voltron_View
 	public function __construct($env)
 	{
 		$this->env = $env;	
-		$this->Session = Voltron_Registry::get('Session');
+		$this->Session = Registry::get('Session');
 	}
 
 	public function route($key) 
 	{
 		$key = str_replace(array(' ', '/'), array('', 'And'), $key);
-		if($route = Voltron_Registry::get('Routes')->getRoute($key)) {
+		if($route = Registry::get('Routes')->getRoute($key)) {
 			return '/' . URLBASE . '/' . $key;
 		}
 		

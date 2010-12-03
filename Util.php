@@ -1,6 +1,8 @@
 <?php
 
-class Voltron_Util
+namespace Voltron;
+
+class Util
 {
 	public static function getExtendedStaticArray($className, $arrayName)
 	{

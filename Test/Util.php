@@ -1,5 +1,7 @@
 <?php 
 
+namespace Voltron\Test;
+
 require_once 'Test.php';
 
 
@@ -16,11 +18,11 @@ class C extends B {
 }
 
 
-class Voltron_Test_Util {
+class Util {
 	public static function run()
 	{
-		print_r(Voltron_Util::getExtendedStaticArray('C', 'x'));
+		print_r(\Voltron\Util::getExtendedStaticArray('C', 'x'));
 	}	
 }
 
-Voltron_Test_Util::run();
+Util::run();

@@ -1,6 +1,8 @@
 <?php
 
-class Voltron_Email
+namespace Voltron; 
+
+class Email
 {
 	public static function sendHtmlEmail($to_address, $from_address, $subject, $message, $html = null, $bcc = null, $cc=null)
 	{

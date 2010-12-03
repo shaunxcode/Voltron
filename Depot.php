@@ -1,10 +1,12 @@
 <?php
 
-class Voltron_Depot
+namepsace Voltron;
+
+class Depot
 {
 	public static function dispatch()
 	{
-		$routes = Voltron_Registry::get('Routes');
+		$routes = Registry::get('Routes');
 		
 		$parts = explode('/', $_SERVER['REQUEST_URI']);
 		array_shift($parts);

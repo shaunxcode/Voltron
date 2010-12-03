@@ -1,6 +1,8 @@
 <?php
 
-class Voltron_Routes
+namespace Voltron;
+
+class Routes
 {
 	public function getRoute($key, $uri = array())
 	{

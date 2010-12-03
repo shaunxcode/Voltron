@@ -1,6 +1,8 @@
 <?php
 
-class Voltron_Request
+namespace Voltron;
+
+class Request
 {
 	protected $vars;
 

@@ -1,6 +1,8 @@
 <?php
 
-class Voltron_Cop
+namespace Voltron;
+
+class Cop
 {
 	protected $checkField = 'authenticated';
 	
@@ -15,6 +17,6 @@ class Voltron_Cop
 			return true;
 		}
 		
-		return Voltron_Registry::get('Session')->get($this->checkField, false);
+		return Registry::get('Session')->get($this->checkField, false);
 	}
 }

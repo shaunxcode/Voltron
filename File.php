@@ -1,6 +1,8 @@
 <?php
 
-class Voltron_File
+namespace Voltron;
+
+class File
 {
 	private $handle;
 	

@@ -1,6 +1,8 @@
 <?php
+
+namespace Voltron; 
 	
-class Voltron_Test {
+class Test {
 		
 	public static function assert($description, $test)
 	{
@@ -17,7 +19,7 @@ class Voltron_Test {
 	{
 		$tables = func_get_args();
 		foreach($tables as $modelName) {
-			Voltron_Registry::get('dbh')->execute(newObject(className(APPNAME, MODEL, $modelName))->getSchema());
+			Registry::get('dbh')->execute(newObject(className(APPNAME, MODEL, $modelName))->getSchema());
 		}
 	}
 	

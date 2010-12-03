@@ -1,6 +1,8 @@
 <?php
 
-class Voltron_Image 
+namespace Voltron; 
+
+class Image 
 {
 	private $fileName;
 	private $image; 

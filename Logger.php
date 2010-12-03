@@ -1,6 +1,8 @@
 <?php
 
-class Voltron_Logger
+namespace Voltron;
+
+class Logger
 {
 	protected $infoFile;
 	protected $sqlFile;
@@ -11,10 +13,10 @@ class Voltron_Logger
 	
 	public function __construct()
 	{
-		$this->handles['info'] = new Voltron_File($this->infoFile);
-		$this->handles['sql'] = new Voltron_File($this->sqlFile);
-		$this->handles['error'] = new Voltron_File($this->errorFile);
-		$this->handles['email'] = new Voltron_File($this->emailFile);
+		$this->handles['info'] = new File($this->infoFile);
+		$this->handles['sql'] = new File($this->sqlFile);
+		$this->handles['error'] = new File($this->errorFile);
+		$this->handles['email'] = new File($this->emailFile);
 	}
 	
 	public function writeToLog($name, $message) 
