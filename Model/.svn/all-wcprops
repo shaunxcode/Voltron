@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 28
+/svn/!svn/ver/75/trunk/Model
+END
+GenericRecord.php
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/43/trunk/Model/GenericRecord.php
+END
+Record.php
+K 25
+svn:wc:ra_dav:version-url
+V 39
+/svn/!svn/ver/66/trunk/Model/Record.php
+END
+Model.php
+K 25
+svn:wc:ra_dav:version-url
+V 38
+/svn/!svn/ver/75/trunk/Model/Model.php
+END
+Type.php
+K 25
+svn:wc:ra_dav:version-url
+V 37
+/svn/!svn/ver/66/trunk/Model/Type.php
+END
