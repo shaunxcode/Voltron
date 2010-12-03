@@ -2,7 +2,6 @@
 
 namespace Voltron;
 
-require_once APPROOT . '/library/Voltron/Model/Type.php';
 session_start();
 define('VOLTRON', 'Voltron');
 
@@ -54,13 +53,6 @@ class N {
 	}
 }
 
-class Model {
-	public static function __callStatic($modelName, $args)
-	{
-		return newObject(className(APPNAME, MODEL, $modelName));
-	}
-}
-
 function puts($what)
 {
 	echo $what . "\n";
@@ -75,7 +67,7 @@ function fileName()
 function className()
 {
 	$args = func_get_args();
-	return implode('_', $args);	
+	return '\\' . implode('\\', $args);	
 }
 
 function newObject($class, $constructArg = false)
@@ -91,7 +83,7 @@ function apply()
 
 function newType($type, $constructArg = false)
 {
-	return newObject('Voltron_Model_Type_' . $type, $constructArg);
+	return newObject(className('Voltron', 'Model', 'Type', $type), $constructArg);
 }
 
 function primToType($value)
@@ -122,7 +114,7 @@ function newArray()
 		$args = array_shift($args);
 	}
 	
-	return newObject('Voltron_Model_Type_Array', $args)->setClass('Voltron_Model_Type_' . $type);
+	return newObject('\Voltron\Model\Type\Dict', $args)->setClass('\Voltron\Model\Type\\' . $type);
 }
 
 function newRange($min, $max, $step = 1) {
@@ -136,7 +128,7 @@ function A()
 
 function L($var) 
 {
-	return newObject('Voltron_FluentLambda', $var);
+	return FluentLambda($var);
 }
 
 function I($field)
@@ -166,7 +158,7 @@ function N()
 	
 	$list = newArray(VString); 
 	foreach($args as $arg) {
-		$list->push($arg instanceof Voltron_FluentLambda ? ('call_user_func_array(create_function(\'' . $arg->getOperatingOn() . '\',\'' . $arg->getLambdaString() .'\'), array(' . $arg->getOperatingOn() . '))') : ($arg == key || $arg == val ? '$' . $arg : $arg));
+		$list->push($arg instanceof FluentLambda ? ('call_user_func_array(create_function(\'' . $arg->getOperatingOn() . '\',\'' . $arg->getLambdaString() .'\'), array(' . $arg->getOperatingOn() . '))') : ($arg == key || $arg == val ? '$' . $arg : $arg));
 	}
 	
 	return create_function('$key, $val', 'return new' . $type . '(' . $list->join(',') . ');');
@@ -242,55 +234,55 @@ function __autoload($class_name)
 
 $loggerClassName = APPNAME . '_Config_Logger';
 if(class_exists($loggerClassName)) {
-	Voltron_Registry::set('Logger', new $loggerClassName);
+	Registry::Logger(new $loggerClassName);
 	function InfoLog()
 	{	
 		$args = func_get_args();
-		return Voltron_Registry::get('Logger')->writeToLog('info', $args); 
+		return Registry::Logger()->writeToLog('info', $args); 
 	}
 	
 	function SqlLog()
 	{	
 		$args = func_get_args();
-		return Voltron_Registry::get('Logger')->writeToLog('sql', $args); 
+		return Registry::Logger()->writeToLog('sql', $args); 
 	}
 	
 	function ErrorLog()
 	{
 		$args = func_get_args();
-		return Voltron_Registry::get('Logger')->writeToLog('error', $args);
+		return Registry::Logger()->writeToLog('error', $args);
 	}
 	
 	function EmailLog()
 	{
 		$args = func_get_args();
-		return Voltron_Registry::get('Logger')->writeToLog('email', $args);
+		return Registry::Logger()->writeToLog('email', $args);
 	}
 	
 }
 
-function VoltronErrorHandler($no, $str, $file, $line)
+function ErrorHandler($no, $str, $file, $line)
 {
     ErrorLog(array('date' => time(), 'num' => $no, 'msg' => $str, 'file' => $file, 'line' => $line));
 }
 
-set_error_handler('VoltronErrorHandler');
+set_error_handler('ErrorHandler');
 
-function VoltronExceptionHandler($exception)
+function ExceptionHandler($exception)
 {
     ErrorLog($exception);
 }
 
-set_exception_handler('VoltronExceptionHandler');
+set_exception_handler('ExceptionHandler');
 
 unset($loggerClassName);
-Voltron_Registry::set('Routes', newObject(APPNAME . '_Config_Routes'));
-Voltron_Registry::set('Request', new Voltron_Request);
-Voltron_Registry::set('Session', new Voltron_Session(SESSION_BASE));
+Registry::Routes(newObject(APPNAME . '\Config\Routes'));
+Registry::Request(new Request);
+Registry::Session(new Session(SESSION_BASE));
 /* 
 	This faciliates the ability for requests which do not use the DB to NOT instantiate db handle,
   	thus only created first time dbh is accessed in registry 
 */
-Voltron_Registry::addSetter('dbh', function() { 
-	return Voltron_DB::createHandle(); 
+Registry::addSetter('dbh', function() { 
+	return DB::createHandle(); 
 });
